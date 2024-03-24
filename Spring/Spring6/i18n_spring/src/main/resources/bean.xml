@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- TODO StaticMessageSource实现类 -->
+<!--    <bean class="org.springframework.context.support.StaticMessageSource">-->
+<!--        &lt;!&ndash; 对国际化信息格式化 &ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="alwaysUseMessageFormat" value="true"></property>&ndash;&gt;-->
+<!--        &lt;!&ndash; ，将消息代码作为键，并将完整的消息字符串 &ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="commonMessages" value="www.hjc.com"></property>&ndash;&gt;-->
+<!--        &lt;!&ndash; 设置将用于尝试解析此对象无法解析的消息的父对象。&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="parentMessageSource" value=""></property>&ndash;&gt;-->
+<!--        &lt;!&ndash; 没有找到对应信息的时候，是否返回 code &ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="useCodeAsDefaultMessage" value="true"></property>&ndash;&gt;-->
+<!--    </bean>-->
+    <!-- TODO ResourceBundleMessageSource实现类 -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>hjc</value>
+            </list>
+        </property>
+        <property name="defaultEncoding">
+            <value>utf-8</value>
+        </property>
+    </bean>
+    <!-- TODO ReloadableResourceBundleMessageSource实现类 -->
+<!--    <bean id="messageSource"-->
+<!--          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+<!--        <property name="useCodeAsDefaultMessage" value="true"></property>-->
+<!--        <property name="parentMessageSource" value=""></property>-->
+<!--        <property name="commonMessages" value=""></property>-->
+<!--        <property name="basenames">-->
+<!--            <list>-->
+<!--                <value>hjc</value>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--        <property name="defaultEncoding">-->
+<!--            <value>utf-8</value>-->
+<!--        </property>-->
+<!--    </bean>-->
+</beans>

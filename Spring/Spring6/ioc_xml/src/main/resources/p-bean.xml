@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- 为对象类型属性赋值 -->
+    <bean id="clazzOne" class="com.hjc.demo.Clazz">
+        <property name="clazzId" value="1111"/>
+        <property name="clazzName" value="财源滚滚班"/>
+    </bean>
+    <!--map集合类型的bean-->
+    <util:map id="teacherMap2">
+        <entry>
+            <key>
+                <value>10010</value>
+            </key>
+            <ref bean="teacherOne"/>
+        </entry>
+        <entry>
+            <key>
+                <value>10086</value>
+            </key>
+            <ref bean="teacherTwo"/>
+        </entry>
+    </util:map>
+    <!-- 为Map集合类型属性赋值 -->
+    <bean id="teacherOne" class="com.hjc.demo.Teacher">
+        <property name="teacherId" value="10010"></property>
+        <property name="teacherName" value="大宝"></property>
+    </bean>
+
+    <bean id="teacherTwo" class="com.hjc.demo.Teacher">
+        <property name="teacherId" value="10086"></property>
+        <property name="teacherName" value="二宝"></property>
+    </bean>
+    <!-- p命名空间-->
+    <bean id="stu" class="com.hjc.demo.Student" p:id="1006"  p:name="小明" p:clazz-ref="clazzOne" p:teacherMap-ref="teacherMap2"/>
+</beans>
