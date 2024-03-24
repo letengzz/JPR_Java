@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.demo.mapper.EmpMapper">
+
+    <!-- 当字段和属性不一致时，会映射不上，可以采用：
+         1.为字段设置别名，保持和属性名的一致
+         2.通过全局配置settings自动映射、将_自动映射为驼峰
+          <setting name="mapUnderscoreToCamelCase" value="true"/>
+         3.通过resultMap设置属性和映射关系(一般处理一对多、多对一关系) 子标签：id:唯一标识，不能重复、type:设置映射关系中的实体类类型
+          property属性名 column表中字段名
+    -->
+    <resultMap id="empResultMap" type="Employee">
+        <!-- 设置主键 -->
+        <id property="empId" column="emp_id"/>
+        <!-- 设置普通字段 -->
+        <result property="empName" column="emp_name"/>
+        <result property="empSalary" column="emp_salary"/>
+    </resultMap>
+<!--    <select id="getAllEmp" resultType="com.hjc.demo.pojo.Employee">-->
+    <select id="getAllEmp" resultMap="empResultMap">
+       <!-- select eid,emp_name empName,age,sex,email from d_emp;-->
+        select * from t_emp;
+    </select>
+    
+    <!-- 处理多对一的映射关系：
+         1.级联属性赋值
+         2.使用association处理多对一的映射关系
+           property:需要处理多对的映射关系的属性名
+           javaType:该属性的类型
+         3.分步查询:
+           通过分步查询解决，也是通过association,这是三种方式中运行效率最高的方式
+        第二种 如果有索引的话, 可能会造成索引失效,当数据量大的时候效率就不好了, 而分布查询, 只要语句写的好用到索引就会快很多
+        前2个方法只能实现一个需求  第三种一个方法可以实现多个需求  service灵活组合就好了-->
+    <!-- 处理多对一映射关系：级联属性赋值-->
+    <resultMap id="empAndDeptResultMapOne" type="Employee">
+        <id property="empId" column="emp_id"/>
+        <result property="empName" column="emp_name"/>
+        <result property="empSalary" column="emp_salary"/>
+        <result property="dept.deptId" column="dept_id"/>
+        <result property="dept.deptName" column="dept_name"/>
+        <result property="dept.deptCity" column="dept_city"/>
+    </resultMap>
+    <!-- 使用association：专门处理多对一的关系-->
+    <resultMap id="empAndDeptResultMapTwo" type="Employee">
+        <id property="empId" column="emp_id"/>
+        <result property="empName" column="emp_name"/>
+        <result property="empSalary" column="emp_salary"/>
+        <association property="dept" javaType="Department">
+            <id property="deptId" column="dept_id"/>
+            <result property="deptName" column="dept_name"/>
+            <result property="deptCity" column="dept_city"/>
+        </association>
+    </resultMap>
+    <select id="getEmpAndDept" resultMap="empAndDeptResultMapOne">
+        select t_emp.*,t_dept.* from t_emp left join t_dept  on t_dept.dept_id = t_emp.dept_id where t_emp.emp_id = #{eid}
+    </select>
+    <!-- select:设置分步查询的sql的唯一标识(namespace.SQLId或mapper接口的全类名,方法名
+         column:设置分步查询的条件
+         fetchType:当开启了全局的延迟加载之后，可通过此属性手动控制延迟加载的效果
+         fetchType="lazy/eager":lazy表示延迟加载，eager表示立即加载-->
+    <resultMap id="empAndDeptByStepResultMap" type="Employee">
+        <id property="empId" column="emp_id"/>
+        <result property="empName" column="emp_name"/>
+        <result property="empSalary" column="emp_salary"/>
+        <association property="dept"
+                     select="com.hjc.demo.mapper.DeptMapper.getEmpAndDeptByStepTwo"
+                     column="dept_id"
+                     fetchType="lazy"
+        >
+        </association>
+    </resultMap>
+    <!-- 分布查询第一步：查询员工信息 -->
+    <select id="getEmpAndDeptByStepOne" resultMap="empAndDeptByStepResultMap">
+        select * from t_emp where emp_id = #{eid}
+    </select>
+
+    <select id="getDeptAndEmpByStepTwo" resultType="com.hjc.demo.pojo.Employee">
+        select * from t_emp where dept_id = #{did}
+    </select>
+</mapper>

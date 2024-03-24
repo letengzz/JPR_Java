@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.demo.mapper.DeptMapper">
+
+    <select id="getEmpAndDeptByStepTwo" resultType="com.hjc.demo.pojo.Department">
+        select dept_id,dept_name deptName,dept_city deptCity from t_dept where dept_id = #{did}
+    </select>
+
+    <!-- 处理多对一的映射关系：
+          1.两表联查(collection)
+          2.分步查询-->
+    <!-- 使用collection处理一对多的关系
+          ofType：集合中的类型
+
+          association:需要属性的类型
+          collection:集合中所需要的属性
+          -->
+    <resultMap id="deptAndEmpResultMap" type="Department">
+        <id property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="deptCity" column="dept_city"/>
+        <collection property="employees" ofType="Employee">
+            <id property="empId" column="emp_id"/>
+            <result property="empName" column="emp_name"/>
+            <result property="empSalary" column="emp_salary"/>
+        </collection>
+    </resultMap>
+    <select id="getDeptAndEmp" resultMap="deptAndEmpResultMap">
+        select * from t_dept left join t_emp  on t_dept.dept_id = t_emp.dept_id where t_dept.dept_id = #{did}
+    </select>
+
+    <!-- 通过分步查询来查询部门以及部门中所有的员工信息
+         select:设置分步查询的sql的唯一标识(namespace.SQLId或mapper接口的全类名,方法名
+         column:设置分步查询的条件
+         fetchType:当开启了全局的延迟加载之后，可通过此属性手动控制延迟加载的效果
+         fetchType="lazy/eager":lazy表示延迟加载，eager表示立即加载-
+    -->
+    <resultMap id="deptAndEmpByStepResultMap" type="Department">
+        <id property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <collection property="employees" select="com.hjc.demo.mapper.EmpMapper.getDeptAndEmpByStepTwo" column="dept_id" fetchType="eager"/>
+    </resultMap>
+    <select id="getDeptAndEmpByStepOne" resultMap="deptAndEmpByStepResultMap">
+        select * from t_dept where dept_id = #{did}
+    </select>
+</mapper>

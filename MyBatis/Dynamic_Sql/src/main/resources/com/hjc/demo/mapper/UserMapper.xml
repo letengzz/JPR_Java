@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.demo.mapper.UserMapper">
+    <insert id="insertMoreByList">
+        insert into user values
+        <foreach collection="users" item="user" separator=",">
+            (null,#{user.username},#{user.password},#{user.age})
+        </foreach>
+    </insert>
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age},
+            </if>
+        </set>
+        <where>id = #{id}</where>
+    </update>
+    <delete id="deleteMoreByArray">
+        <!-- 第一种方式-->
+        <!--delete
+        from d_stu
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>-->
+
+        <!-- 第二种方式-->
+        delete from user where
+        <foreach collection="ids" item="id" separator="or">
+            id = #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="getUserByConditionIf" resultType="com.hjc.demo.pojo.User">
+        select * from user where 1=1
+        <if test="username != null and username != ''">
+            and username = #{username}
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+        <if test="age != null and age != ''">
+            and age = #{age}
+        </if>
+    </select>
+    <select id="getUserByConditionWhere" resultType="com.hjc.demo.pojo.User">
+        select * from user
+        <where>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
+    <select id="getUserByConditionTrim" resultType="com.hjc.demo.pojo.User">
+        select * from user
+        <trim prefix="where" suffix="" prefixOverrides="and|or" suffixOverrides="">
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age}
+            </if>
+        </trim>
+    </select>
+    <select id="getUserByConditionCWO" resultType="com.hjc.demo.pojo.User">
+        select * from user where
+        <choose>
+            <when test="username != null and username != ''">
+                username = #{username}
+            </when>
+            <when test="password != null and password != ''">
+                password = #{password}
+            </when>
+            <when test="age != null and age != ''">
+                age = #{age}
+            </when>
+            <otherwise>
+                id = 1
+            </otherwise>
+        </choose>
+    </select>
+    <sql id="userColumns">id,username,password,age</sql>
+    <select id="getUserByConditionSql" resultType="com.hjc.demo.pojo.User">
+        select <include refid="userColumns"/> from user
+    </select>
+
+</mapper>

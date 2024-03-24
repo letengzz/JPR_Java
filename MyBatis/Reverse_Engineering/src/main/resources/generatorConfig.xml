@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--
+        targetRuntime: 执行生成的逆向工程的版本
+            MyBatis3Simple: 生成基本的CRUD
+            MyBatis3: 生成带条件的CRUD
+     -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 防止生成重复代码 -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+        <!-- JavaBean 实现 序列化 接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--  pojo中生成toString -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 开启支持内存分页   可生成 支持内存分布的方法及参数 -->
+        <!--<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" /> -->
+        <!-- generate entity时，生成hashcode和equals方法 -->
+        <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" /> -->
+        <!-- 此处是将Example改名为Criteria 当然 想改成什么都行~    -->
+        <!--<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+        <property name="searchString" value="Example$" />
+        &lt;!&ndash;替换后&ndash;&gt;
+        <property name="replaceString" value="Criteria" />
+        <property name="replaceString" value="Query" />
+        </plugin>-->
+        <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+        <commentGenerator>
+            <!-- 是否去除生成日期-->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- Mysql数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/mybatis-example"
+                        userId="root"
+                        password="123123">
+            <!-- 修复逆向生成实体类字段不全的问题-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+
+        <!-- 默认为false，把JDBC DECIMAL 和NUMERIC类型解析为Integer，为true时 把JDBC DECIMAL 和NUMERIC类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- javaBean的生成策略-->
+        <javaModelGenerator
+                targetPackage="com.hjc.demo.pojo" targetProject=".\src\main\java">
+            <!-- 从数据库返回的值被清理前后的空格(去掉字符串的空格) -->
+            <property name="trimStrings" value="true"/>
+            <!-- 是否开启子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否对model添加 构造函数 -->
+            <property name="constructorBased" value="true"/>
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+        </javaModelGenerator>
+
+        <!-- SQL映射文件的生成策略 -->
+        <sqlMapGenerator targetPackage="com.hjc.demo.mapper"
+                         targetProject=".\src\main\resources">
+            <!-- 是否开启子包 -->
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- Mapper接口的生成策略 -->
+        <!--ANNOTATEDMAPPER: 生成java类文件,基于注解的Mapper接口，不会有对应的XML映射文件
+            MIXEDMAPPER:XML和注解的混合形式
+            XMLMAPPER:所有的方法都在XML中，接口调用依赖XML文件 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.hjc.demo.mapper" targetProject=".\src\main\java">
+            <!-- 是否开启子包 -->
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 逆向分析的表 -->
+        <!-- tableName设置为*号，可以对应所有表，此时不写domainObjectName -->
+        <!-- domainObjectName属性指定生成出来的实体类的类名 -->
+        <!-- 添加enableSelectByExample可去除按条件删除，增删改同理-->
+        <table tableName="user" domainObjectName="User" enableSelectByExample="true"/>
+    </context>
+
+</generatorConfiguration>
