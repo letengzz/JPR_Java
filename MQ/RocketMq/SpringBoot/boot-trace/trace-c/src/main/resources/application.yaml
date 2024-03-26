@@ -1,0 +1,7 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: rocketmq-consumer
+rocketmq:
+  name-server: 192.168.84.134:9876   # rocketMq的nameServer地址
