@@ -1,20 +1,21 @@
 package com.hjc.demo.consumer;
 
 import com.hjc.demo.constant.MqConstant;
+import io.netty.util.CharsetUtil;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.*;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
- *  消费者
  * @author hjc
  */
-public class Consumer {
+public class SplitterConsumer {
     public static void main(String[] args) throws MQClientException, IOException {
         //创建默认消费者组
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("batch-consumer-group");
@@ -39,10 +40,10 @@ public class Consumer {
         consumer.registerMessageListener(new MessageListenerOrderly() {
             @Override
             public ConsumeOrderlyStatus consumeMessage(List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) {
-                // 这里执行消费的代码 默认是多线程消费
-                System.out.println("线程id:" + Thread.currentThread().getId());
-                System.out.println("消息内容:"+new String(list.get(0).getBody()));
-                System.out.println("消费上下文:"+consumeOrderlyContext);
+                System.out.println("批量消息，总个数:"+list.size());
+                list.forEach(message->{
+                    System.out.println("批量消息 body:"+new String(message.getBody(), CharsetUtil.UTF_8));
+                });
                 // 返回消费的状态 如果是SUCCESS 则成功，若为LATER则该条消息会被重回队列，重新被投递
                 // 重试的时间为messageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
                 // 也就是第一次1s 第二次5s 第三次10s  ....  如果重试了18次 那么这个消息就会被终止发送给消费者
