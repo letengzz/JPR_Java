@@ -1,8 +1,10 @@
 package com.hjc.demo.listener;
 
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -17,12 +19,8 @@ import java.util.Date;
 @Component
 @RocketMQMessageListener(topic = "DeadTopicTest",
         consumerGroup = "dead-consumer-group",
-        selectorExpression = "tagA || tagB || tagC",
-        maxReconsumeTimes = 2,
-        delayLevelWhenNextConsume = 2
-
-)
-public class MsgListener implements RocketMQListener<MessageExt> {
+        selectorExpression = "tagA || tagB || tagC")
+public class MsgListener implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
     /**
      * 消费消息的方法
      * 如果泛型指定了固定的类型 那么消息体就是参数
@@ -39,5 +37,11 @@ public class MsgListener implements RocketMQListener<MessageExt> {
         System.out.println("消息处理次数的处理次数:"+messageExt.getReconsumeTimes());
         // 模拟报错
         throw new RuntimeException("消费失败");
+    }
+
+    @Override
+    public void prepareStart(DefaultMQPushConsumer consumer) {
+        // 设定重试次数
+        consumer.setMaxReconsumeTimes(2);
     }
 }
