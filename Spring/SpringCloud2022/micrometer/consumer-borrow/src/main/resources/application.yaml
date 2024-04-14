@@ -1,0 +1,30 @@
+server:
+  port: 8401
+spring:
+  datasource:
+    url:  jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    # 应用名称 borrow-service
+    name: borrow-service
+  cloud:
+    nacos:
+      discovery:
+        # 配置Nacos注册中心地址
+        server-addr: localhost:8848
+        # 用户名
+        username: nacos
+        # 密码
+        password: nacos
+        # 开启注册与发现
+        enabled: true
+# zipkin图形展现地址和采样率设置
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0 #采样率默认为0.1(0.1就是10次只能有一次被记录下来)，值越大收集越及时。
