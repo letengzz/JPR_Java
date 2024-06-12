@@ -1,0 +1,12 @@
+spring:
+  ai:
+    openai:
+      api-key: ${imageapikey}
+      base-url: ${imagebaseurl}
+      image:
+        options:
+          model: gpt-4-vision-compatible
+          quality: hd
+          n: 2
+          height: 1024
+          width: 1024
