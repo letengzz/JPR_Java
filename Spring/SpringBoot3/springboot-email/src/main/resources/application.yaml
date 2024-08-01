@@ -1,0 +1,10 @@
+spring:
+  mail:
+    # 设置编码 默认 utf-8
+    default-encoding: UTF-8
+    # 163邮箱的地址为smtp.163.com，直接填写即可
+    host: smtp.163.com
+    # 163邮箱
+    username: m19164221189@163.com
+    # 注意密码是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
+    password: RAKTCQGORXBPIVPR

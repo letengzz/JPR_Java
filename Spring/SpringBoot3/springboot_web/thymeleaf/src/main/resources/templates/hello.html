@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+<h1>Hello <span th:text="${name}">原内容</span></h1>
+<hr/>
+<!-- th:text: 替换标签体的内容 会转义html标签 -->
+<h1 th:text="${name}">替换原内容</h1>
+<!-- th:utext: 替换标签体的内容 不会转义标签 会直接显示html -->
+<h1 th:utext="${name2}">替换原内容</h1>
+<hr/>
+<!-- th:任意html属性: 动态替换任意属性的值-->
+<img th:src="${imgUrl}" src="1.png" style="width: 300px;height: 300px"/>
+<!-- th:attr: 任意属性指定-->
+<img th:attr="src=${imgUrl},style=${style}"/>
+<hr/>
+<!-- th:if: 据条件决定是否显示-->
+<img th:attr="src=${imgUrl},style=${style}" th:if="${show}"/>
+<hr/>
+<!-- th:value: 标签指定属性渲染-->
+<input type="text" name="username" th:value="${name}" value="名字" />
+<hr/>
+<!-- @{}: 解析URL地址-->
+<img th:src="@{${imgUrl}}" src="1.png" style="width: 300px;height: 300px"/>
+<hr/>
+<!-- 内置对象-->
+<!-- #strings.toUpperCase(name): 转为大写-->
+<h1 th:text="${#strings.toUpperCase(name)}"></h1>
+<!-- 拼串-->
+<h1 th:text="${'前缀:'+name+'后缀'}"></h1>
+<!-- 快捷拼串-->
+<h1 th:text="|前缀 ${name} 后缀|"></h1>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# \u542FProblemDetails\u8FD4\u56DE, \u4F7F\u7528\u65B0\u7684MediaType
+spring:
+  mvc:
+    problemdetails:
+      enabled: true

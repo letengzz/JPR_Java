@@ -1,0 +1,7 @@
+springdoc:
+  # /api-docs endpoint custom path \u9ED8\u8BA4 /v3/api-docs
+  api-docs.path: /api-docs
+  # swagger \u76F8\u5173\u914D\u7F6E\u5728  springdoc.swagger-ui
+  # swagger-ui custom path
+  swagger-ui.path: /swagger-ui.html
+  show-actuator: true

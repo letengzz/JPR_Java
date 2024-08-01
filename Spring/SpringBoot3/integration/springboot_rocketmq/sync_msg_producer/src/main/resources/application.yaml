@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: rocketmq-producer
+rocketmq:
+  name-server: 127.0.0.1:9876  # rocketMq\u7684nameServer\u5730\u5740
+  producer:
+    group: producer-group  # \u751F\u4EA7\u8005\u7EC4\u522B
+    send-message-timeout: 3000  # \u6D88\u606F\u53D1\u9001\u7684\u8D85\u65F6\u65F6\u95F4
+    retry-times-when-send-failed: 2  # \u5F02\u6B65\u6D88\u606F\u53D1\u9001\u5931\u8D25\u91CD\u8BD5\u6B21\u6570
+    max-message-size: 4194304       # \u6D88\u606F\u7684\u6700\u5927\u957F\u5EA6

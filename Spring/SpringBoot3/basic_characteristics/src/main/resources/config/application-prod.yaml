@@ -1,0 +1,12 @@
+server:
+  port: 9101
+# 导入指定的配置
+spring:
+  config:
+    import: classpath:my.yaml
+# my.properties内部的配置 导入配置的优先级低于配置文件的优先级
+my:
+  prop: 你好世界
+app:
+  name: MyApp
+  description: ${app.name} is a Spring Boot application written by ${username:Unknown}

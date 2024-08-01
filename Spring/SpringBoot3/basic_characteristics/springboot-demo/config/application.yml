@@ -1,0 +1,71 @@
+server:
+  port: 9501
+spring:
+  application:
+    name: basic_characteristics
+  profiles:
+    active: prod
+  banner:
+    # 设置banner编码 默认为UTF-8
+    charset: UTF-8
+    # 设置banner地址 默认为 classpath:banner.txt
+    location: classpath:banner.txt
+  main:
+    # banner模式：off取消banner、log日志输出、console控制台输出
+    banner-mode: console
+logging:
+  # 文件归档与滚动切割
+  logback:
+    rollingpolicy:
+      clean-history-on-start: false
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz
+      max-file-size: 1KB
+      total-size-cap: 0B
+      max-history: 7
+  file:
+    # 指定日志文件的路径
+     path: D:\\spring-log
+    # 指定日志文件的名
+#    name: demo.log
+  pattern:
+    # 修改输出格式
+#    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} ===> %msg%n'
+    # 修改日志日期格式
+    dateformat: 'yyyy-MM-dd HH:mm:ss'
+  group:
+    tomcat: org.apache.catalina,org.apache.coyote,org.apache.tomcat
+  level:
+    # 精确调整某个包下的日志级别
+    com.hjc.demo.controller: warn
+    # 默认所有日志没有精确指定级别就使用root的默认级别
+    root: info
+    # Tomcat 相关的日志统一设置
+#    tomcat: trace
+person:
+  name: 张三
+  age: 18
+  birthDay: 2010/10/10 12:12:12
+  like: true
+  child:
+    name: 李四
+    age: 20
+    birthDay: 2018/10/10
+#    text: ["abc","def"]
+    text:
+      - abc
+      - def
+      - |
+        你好
+        李四
+      - >
+        你好啊李四
+  dogs:
+    - name: 小黑
+      age: 3
+    - name: 小白
+      age: 2
+  cats:
+    c1:
+      name: 小蓝
+      age: 3
+    c2: {name: 小绿,age: 2} #对象也可用{}表示

@@ -1,0 +1,5 @@
+# \u6539\u53D8\u8DEF\u5F84\u5339\u914D\u7B56\u7565\uFF1Aant_path_matcher \u8001\u7248\u7B56\u7565\uFF1Bpath_pattern_parser \u65B0\u7248\u7B56\u7565
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
