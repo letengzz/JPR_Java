@@ -1,0 +1,17 @@
+spring:
+  # 配置数据源信息
+  datasource:
+    # 配置数据源类型
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 配置连接数据库信息
+      url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123123
+# 配置MyBatis-plus
+mybatis-plus:
+  type-aliases-package: com.hjc.demo.pojo
+  # 配置MyBatis-plus日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
