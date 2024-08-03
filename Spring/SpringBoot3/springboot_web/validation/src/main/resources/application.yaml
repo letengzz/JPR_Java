@@ -1,0 +1,4 @@
+# \u914D\u7F6E\u57FA\u672C\u6D88\u606F\u540D
+spring:
+  messages:
+    basename: i18n/message
