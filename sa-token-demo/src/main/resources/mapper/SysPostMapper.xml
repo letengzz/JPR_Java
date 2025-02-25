@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.demo.mapper.SysPostMapper">
+
+    <resultMap id="BaseResultMap" type="com.hjc.demo.domain.SysPost">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="postCode" column="post_code" jdbcType="VARCHAR"/>
+            <result property="postName" column="post_name" jdbcType="VARCHAR"/>
+            <result property="postSort" column="post_sort" jdbcType="DECIMAL"/>
+            <result property="postStatus" column="post_status" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,post_code,post_name,
+        post_sort,post_status
+    </sql>
+</mapper>

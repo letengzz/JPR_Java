@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.demo.mapper.SysLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.hjc.demo.domain.SysLog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="operName" column="oper_name" jdbcType="VARCHAR"/>
+            <result property="operParam" column="oper_param" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="ip" column="ip" jdbcType="VARCHAR"/>
+            <result property="businessName" column="business_name" jdbcType="VARCHAR"/>
+            <result property="method" column="method" jdbcType="VARCHAR"/>
+            <result property="result" column="result" jdbcType="VARCHAR"/>
+            <result property="logStatus" column="log_status" jdbcType="CHAR"/>
+            <result property="error" column="error" jdbcType="VARCHAR"/>
+            <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,oper_name,oper_param,
+        url,ip,business_name,
+        method,result,log_status,
+        error,create_date
+    </sql>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.demo.mapper.SysFileInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.hjc.demo.domain.SysFileInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="md5" column="md5" jdbcType="VARCHAR"/>
+            <result property="contentType" column="content_type" jdbcType="VARCHAR"/>
+            <result property="fileSize" column="file_size" jdbcType="INTEGER"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="sourceType" column="source_type" jdbcType="VARCHAR"/>
+            <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,md5,
+        content_type,file_size,url,
+        source_type,create_date
+    </sql>
+</mapper>
