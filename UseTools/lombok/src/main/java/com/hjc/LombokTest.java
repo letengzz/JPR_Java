@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
  * @author hjc
  */
 public class LombokTest {
+    @Test
+    void testAll() {
+        Account account = new Account(1, "张三", 1000);
+        System.out.println(account);
+    }
+
     /**
      *  链式调用测试
      */
